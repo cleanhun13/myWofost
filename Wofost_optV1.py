@@ -277,11 +277,11 @@ if __name__ == "__main__":
 
     yield_dict = {
         "ZDN180": [0.383493419, 0.593706738],
-        "YDN180": 10387,
-        "QSN180": 11480
+        "YDN180": [0.524190679, 0.710423337],
+        "QSN180": [0.612771256, 0.79811455]
     }
 
-    file_names = ["ZDN180"]
+    file_names = ["YDN180", "QSN180"]
     for file_name in file_names:
         obs_LAI = pd.read_csv(os.path.join(data_dir, "LAI", "2022", f"{file_name}.csv"))
         obs_LAI.index = pd.to_datetime(obs_LAI.day)
