@@ -1,0 +1,13 @@
+Version: 1.0
+AgroManagement:
+- 2006-01-01:
+    CropCalendar:
+        crop_name: 'maize'
+        variety_name: 'Grain_maize_205'
+        crop_start_date: 2006-06-15
+        crop_start_type: emergence
+        crop_end_date: 2006-10-20
+        crop_end_type: harvest
+        max_duration: 120
+    TimedEvents: null
+    StateEvents: null

@@ -1,0 +1,126 @@
+TEFFMX:
+    - TEFFMX
+    - 0
+TSUM1:
+    - TSUM1
+    - 1
+TSUM2:
+    - TSUM2
+    - 2
+TDWI:
+    - TDWI
+    - 3
+RGRLAI:
+    - RGRLAI
+    - 4
+SLATB001:
+    - SLATB0.00
+    - 5
+SLATB003:
+    - SLATB0.78
+    - 6
+SLATB005: 
+    - SLATB2.00
+    - 7
+SPAN:
+    - SPAN
+    - 8
+TBASE:
+    - TBASE
+    - 9
+KDIFTB001:
+    - KDIFTB0.0
+    - 10
+KDIFTB003:
+    - KDIFTB2.0
+    - 11
+EFFTB001:
+    - EFFTB0.0
+    - 12
+EFFTB003:
+    - EFFTB40.0
+    - 13
+AMAXTB001:
+    - AMAXTB0.00
+    - 14
+AMAXTB003:
+    - AMAXTB1.25
+    - 15
+AMAXTB005:
+    - AMAXTB1.50
+    - 16
+AMAXTB007:
+    - AMAXTB1.75
+    - 17
+AMAXTB009:
+    - AMAXTB2.00
+    - 18
+TMPFTB001:
+    - TMPFTB0.00
+    - 19
+TMPFTB007:
+    - TMPFTB30.0
+    - 20
+TMNFTB003:
+    - TMNFTB8.0
+    - 21
+CVL:
+    - CVL
+    - 22
+CVO:
+    - CVO
+    - 23
+CVR: 
+    - CVR
+    - 24
+CVS:
+    - CVS
+    - 25
+Q10:
+    - Q10
+    - 26
+RML:
+    - RML
+    - 27
+RMO:
+    - RMO
+    - 28
+RMR:
+    - RMR
+    - 29
+RMS:
+    - RMS
+    - 30
+RFSETB001:
+    - RFSETB0.00
+    - 31
+RFSETB007:
+    - RFSETB2.00
+    - 32
+FLTB001:
+    - FLTB0.00
+    - 33
+FLTB003:
+    - FLTB0.33
+    - 34
+FLTB005:
+    - FLTB0.88
+    - 35
+FLTB007:
+    - FLTB0.95
+    - 36
+FLTB009:
+    - FLTB1.10
+    - 37
+FOTB009:
+    - FOTB1.10
+    - 38
+PERDL:
+    - PERDL
+    - 39
+RDI:
+    - RDI
+    - 40
+RRI:
+    - RRI
+    - 41

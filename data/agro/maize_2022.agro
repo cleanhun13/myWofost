@@ -1,0 +1,26 @@
+Version: 1.0
+AgroManagement:
+- 2022-06-01:
+    CropCalendar:
+        crop_name: 'maize'
+        variety_name: 'Grain_maize_201'
+        crop_start_date: 2022-06-11
+        crop_start_type: sowing
+        crop_end_date:
+        crop_end_type: maturity
+        max_duration: 140
+    TimedEvents:
+    -   event_signal: irrigate
+        name:  Timed irrigation events
+        comment: All irrigation amounts in cm
+        events_table:
+        - 2022-06-28: {amount: 7.5, efficiency: 0.9}
+        - 2022-07-07: {amount: 7.5, efficiency: 0.9}
+        - 2022-08-08: {amount: 7.5, efficiency: 0.9}
+    -   event_signal: apply_npk
+        name:  Timed N/P/K application table
+        comment: All fertilizer amounts in kg/ha
+        events_table:
+        - 2022-06-11: {N_amount : 0, P_amount: 90, K_amount: 60}
+        - 2022-07-15: {N_amount : 0, P_amount: 0, K_amount: 0}
+    StateEvents: null
