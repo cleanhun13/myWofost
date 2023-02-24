@@ -242,21 +242,40 @@ if __name__ == "__main__":
     # 管理文件数据
     agro = my_agro(yaml_agro_2022, 180)
     agro_list = (yaml_agro_2021, yaml_agro_2022)
+    bounds = {
+        "SLATB001": np.arange(0.0013, 0.0039, 0.0001),
+        "SLATB003": np.arange(0.0005, 0.0015, 0.0001),
+        "SPAN": np.arange(16.5, 50.5, 0.5),
+        "EFFTB003": np.arange(0.225, 0.675, 0.001),
+        "TMNFTB003": np.arange(0.5, 1.2, 0.1),
+        "CVO": np.arange(0.4955, 0.9065, 0.0001),
+        "FLTB001": np.arange(0.465, 0.775, 0.001),
+        "TDWI": np.arange(25, 80, 1),
+        "CVS": np.arange(0.329, 0.987, 0.001),
+        "EFFTB001": np.arange(0.25, 0.75, 0.01),
+        "KDIFTB003": np.arange(0.30, 0.90, 0.01),
+        "NCRIT_FR": np.arange(0.50, 1.50, 0.01),
+        "AMAXTB001": np.arange(35.0, 90.0, 2),
+        "NMAXSO": np.arange(0.011, 0.033, 0.001),
+        "NAVAILI": np.arange(0, 50, 2),
+
+    }
+
     fspace = {
-        "SLATB001": hp.uniform("SLATB001", 0.0013, 0.0039),
-        "SLATB003": hp.uniform("SLATB003", 0.0005, 0.0015),
-        "SPAN": hp.uniform("SPAN", 16.5, 50.5),
-        "EFFTB003": hp.uniform("EFFTB003", 0.225, 0.675),
-        "TMNFTB003": hp.uniform("TMNFTB003", 0.5, 1.2),
-        "CVO": hp.uniform("CVO", 0.4955, 0.9065),
-        "FLTB001": hp.uniform("FLTB001", 0.465, 0.775),
-        "TDWI": hp.uniform("TDWI", 25, 80),
-        "CVS": hp.uniform("CVL", 0.329, 0.987),
-        "EFFTB001": hp.uniform("EFFTB001", 0.25, 0.75),
-        "KDIFTB003": hp.uniform("KDIFTB003", 0.30, 0.90),
-        "NCRIT_FR": hp.uniform("NCRIT_FR", 0.50, 1.50),
-        "AMAXTB001": hp.uniform("AMAXTB001", 35.0, 90.0),
-        "NMAXSO": hp.uniform("NMAXSO", 0.011, 0.033),
+        "SLATB001": hp.choice("SLATB001", bounds["SLATB001"]),
+        "SLATB003": hp.choice("SLATB003", bounds["SLATB003"]),
+        "SPAN": hp.choice("SPAN", bounds["SPAN"]),
+        "EFFTB003": hp.choice("EFFTB003", bounds["EFFTB003"]),
+        "TMNFTB003": hp.choice("TMNFTB003", bounds["TMNFTB003"]),
+        "CVO": hp.choice("CVO", bounds["CVO"]),
+        "FLTB001": hp.choice("FLTB001", bounds["FLTB001"]),
+        "TDWI": hp.choice("TDWI", bounds["TDWI"]),
+        "CVS": hp.choice("CVS", bounds["CVS"]),
+        "EFFTB001": hp.choice("EFFTB001", bounds["EFFTB001"]),
+        "NCRIT_FR": hp.choice("NCRIT_FR", bounds["NCRIT_FR"]),
+        "AMAXTB001": hp.choice("AMAXTB001", bounds["AMAXTB001"]),
+        "NMAXSO": hp.choice("NMAXSO", bounds["NMAXSO"]),
+        "NAVAILI": hp.choice("NAVAILI", bounds["NAVAILI"]),
 
     }
 
