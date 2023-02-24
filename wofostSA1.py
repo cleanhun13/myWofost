@@ -112,25 +112,37 @@ def get_efast_sample(problem, n, M1, seed1):
     return efast_sample(problem, n, M1, seed=seed1)
 
 
-def __my_crop_dict():
-    __mycropd = {
-        "AMAXTB": [0.0, 70.0, 1.25, 70.0, 1.5, 63.0, 1.75, 49.0, 2.0, 21.0],
-        "TMPFTB": [0.00, 0.00, 9.00, 0.00, 20.0, 1.0, 30.0, 1.0, 35.0, 0.95, 42.0, 0.078],
-        "TMNFTB": [5.0, 0.0, 8.0, 1.0],
-        "RFSETB": [0.0, 1.0, 1.5, 1.0, 1.75, 0.75, 2.0, 0.25],
-        "SLATB": [0.0, 0.0026, 0.78, 0.001, 2.00, 0.001],
-        "KDIFTB": [0.0, 0.6, 2.0, 0.6],
-        "EFFTB": [0.0, 0.45, 40.0, 0.45],
-        "FLTB":[0.00, 0.62, 0.33, 0.62 , 0.88, 0.15 ,0.95, 0.15, 1.10, 0.10, 1.20, 0.00, 2.00, 0.00],
-        "FOTB":[0.00, 0.00, 0.33, 0.00 , 0.88, 0.00, 0.95, 0.00, 1.10, 0.50, 1.20, 1.00, 2.00, 1.00],
-        "FSTB":[0.00, 0.38, 0.33, 0.38, 0.88, 0.85, 0.95, 0.85, 1.10, 0.40, 1.20, 0.00, 2.00, 0.00]
+def my_crop_dict():
 
-    }
-    return __mycropd
+    mycropd = {
+
+        "AMAXTB": [0.0, 70.0, 1.25, 70.0, 1.5, 63.0, 1.75, 49.0, 2.0, 21.0],
+
+        "TMPFTB": [0.00, 0.01, 9.00, 0.05, 16.0, 0.8, 18.0, 0.94, 20.0, 1.0, 30.0, 1.0, 36.0, 0.95, 42.0, 0.56],
+
+        "TMNFTB": [5.0, 0.0, 8.0, 1.0],
+
+        "RFSETB": [0.0, 1.0, 1.5, 1.0, 1.75, 0.75, 2.0, 0.25],
+
+        "SLATB": [0.0, 0.0026, 0.78, 0.001, 2.00, 0.0012],
+
+        "KDIFTB": [0.0, 0.6, 2.0, 0.6],
+
+        "EFFTB": [0.0, 0.45, 40.0, 0.45],
+
+        "FLTB": [0.00, 0.62, 0.33, 0.62, 0.88, 0.15, 0.95, 0.15, 1.10, 0.10, 1.20, 0.00, 2.00, 0.00],
+
+        "FOTB": [0.00, 0.00, 0.33, 0.00, 0.88, 0.00, 0.95, 0.00, 1.10, 0.50, 1.20, 1.00, 2.00, 1.00],
+
+        "FSTB": [0.00, 0.38, 0.33, 0.38, 0.88, 0.85, 0.95, 0.85, 1.10, 0.40, 1.20, 0.00, 2.00, 0.00]
+
+        }
+
+    return mycropd
 
 
 def run_wofost(variable_name, paramsets: np.ndarray, result_dict, parameters, agrodata, weatherdata, pkl_file,
-               target_variables, target_list=None, method=0, phenology=False):
+               target_variables, target_list=None, phenology=False):
     """
 
     :param problem: yaml
@@ -155,11 +167,11 @@ def run_wofost(variable_name, paramsets: np.ndarray, result_dict, parameters, ag
             parameters.clear_override()
             ## 设置TSUM1 TSUM2
             if phenology:
-                parameters.set_override("TSUMEM", 150.0)
-                parameters.set_override("TSUM1", 1290)
-                parameters.set_override("TSUM2", 650)
+                parameters.set_override("TSUMEM", 125.0)
+                parameters.set_override("TSUM1", 1300)
+                parameters.set_override("TSUM2", 720)
             ## 修改敏感参数值
-            mycropd = __my_crop_dict()
+            mycropd = my_crop_dict()
 
             for name, value in zip(variable_name, paramset):
                 tmp_name = name.split("00")
