@@ -154,7 +154,7 @@ class ObjectiveFunctionCalculatorYield1(object):
         self.n_calls = 0
         self.name_list = name_list
 
-    def __call__(self, params1):
+    def __call__(self, params1, grad=None):
 
         # Run the model and collect output
         re_yield = list()
@@ -262,8 +262,8 @@ if __name__ == "__main__":
         objfunc_calculator = None
 
         objfunc_calculator = ObjectiveFunctionCalculatorYield1(parameters, wdp, agro_list, obs_data, name_par)
-
-        opt = nlopt.opt(nlopt.LN_SBPLX, 14)
+        num_var = len(lower_bounds)
+        opt = nlopt.opt(nlopt.LN_SBPLX, num_var)
         opt.set_min_objective(objfunc_calculator)
         # lower bounds of parameters values
         opt.set_lower_bounds(lower_bounds)
