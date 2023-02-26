@@ -124,3 +124,21 @@ RDI:
 RRI:
     - RRI
     - 41
+NMAXLV_TB001:
+    - NMAXLV_TB0.0
+    - 42
+NMAXLV_TB003:
+    - NMAXLV_TB0.4
+    - 43
+NMAXLV_TB005:
+    - NMAXLV_TB0.7
+    - 44
+NMAXLV_TB007:
+    - NMAXLV_TB1.0
+    - 45
+NMAXLV_TB009:
+    - NMAXLV_TB2.0
+    - 46
+NMAXLV_TB0011:
+    - NMAXLV_TB2.1
+    - 47
