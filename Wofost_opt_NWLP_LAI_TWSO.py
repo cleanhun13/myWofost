@@ -309,6 +309,7 @@ if __name__ == "__main__":
     # }
 
     fspace = {
+        "NAVAILI": hp.uniform("NAVAILI", 20.5, 60),
         "SLATB001": hp.uniform("SLATB001", 0.0013, 0.0039),
         "SLATB003": hp.uniform("SLATB003", 0.0005, 0.0015),
         "SPAN": hp.uniform("SPAN", 16.5, 50.5),
@@ -336,9 +337,9 @@ if __name__ == "__main__":
     # }
 
     yield_dict = {
-        "ZDN180": {"180": [0.593707, 0.383493419], "90": [0.358947, 0.200462469]},
-        "YDN180": {"180": [0.710423337, 0.524190679], "90": [0.448950551, 0.383493419]},
-        "QSN180": {"180": [0.79811455, 0.612771256], "90": [0.551938812, 0.408573461]}
+        "ZDN180": {"180": [0.593707, 0.383493419], "90": [0.358947, 0.200462469], "0": [0.09356101, 0.000711491]},
+        "YDN180": {"180": [0.710423337, 0.524190679], "90": [0.448950551, 0.383493419], "0": [0.117573817, 0.026858769]},
+        "QSN180": {"180": [0.79811455, 0.612771256], "90": [0.551938812, 0.408573461], "0": [0.153859836, 0.060476699]}
     }
 
     file_names = ["ZDN180", "YDN180", "QSN180"]
@@ -375,7 +376,7 @@ if __name__ == "__main__":
                 tmp_list.append(tmp_dict[parname1][0])
             opt_result.append(tmp_list)
         df_res = pd.DataFrame(opt_result)
-        df_res.to_csv(os.path.join(data_dir, "opt", "opt1", f"./opt_{file_name}_NWLP_result0.csv"), header=None)
+        df_res.to_csv(os.path.join(data_dir, "opt", "opt1", f"./opt_{file_name}_NWLP_result3.csv"), header=None)
 
 
 # 叶面积指数用
