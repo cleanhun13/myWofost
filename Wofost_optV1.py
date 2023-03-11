@@ -296,8 +296,8 @@ if __name__ == "__main__":
         "QSN270":[0.862247463, 0.735007496],
     }
 
-    file_names = ["ZDN", "YDN", "QSN"]
-    n_amount = [0, 90, 180, 270]
+    file_names = ["QSN"]
+    n_amount = [270]
     for file_name in file_names:
         for nn in n_amount:
             f_name = f"{file_name}{nn}"

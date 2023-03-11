@@ -4,6 +4,7 @@ import matplotlib
 # matplotlib.style.use("ggplot")
 import matplotlib.pyplot as plt
 import pandas as pd
+import copy
 data_dir = os.path.join(os.getcwd(), "data")
 import pcse
 from pcse.fileinput import CABOFileReader, ExcelWeatherDataProvider, YAMLAgroManagementReader, YAMLCropDataProvider
@@ -11,6 +12,7 @@ from pcse.exceptions import PCSEError, PartitioningError
 from pcse.base import ParameterProvider
 from pcse.util import WOFOST80SiteDataProvider
 from pcse.models import Wofost80_NWLP_FD_beta as Wofost80_NWLP_FD
+from pcse.models import Wofost72_WLP_FD
 import yaml
 import numpy as np
 # import pandas as pd
@@ -25,6 +27,7 @@ import pickle
 from progressbar import printProgressBar, PrintProgressBar
 from tqdm import tqdm
 from SALib.sample.fast_sampler import sample as efast_sample
+from wofostTool import overwrite_param1
 
 
 def calDays(start, end, format="%Y-%m-%d"):
@@ -181,7 +184,7 @@ def my_crop_dict():
 
 
 def run_wofost(variable_name, paramsets: np.ndarray, result_dict, parameters, agrodata, weatherdata, pkl_file,
-               target_variables, target_list=None, phenology=False):
+               target_variables, target_list=None):
     """
 
     :param problem: yaml
@@ -204,36 +207,15 @@ def run_wofost(variable_name, paramsets: np.ndarray, result_dict, parameters, ag
         _tqdm.set_description("{}".format("完成进度"))
         for i, paramset in enumerate(paramsets):
             parameters.clear_override()
-            ## 设置TSUM1 TSUM2
-            if phenology:
-                parameters.set_override("TSUMEM", 125.0)
-                parameters.set_override("TSUM1", 1300)
-                parameters.set_override("TSUM2", 720)
             ## 修改敏感参数值
-            mycropd = my_crop_dict()
+            param_dict_ = {name: value for name, value in zip(variable_name, paramset)}
 
-            for name, value in zip(variable_name, paramset):
-                tmp_name = name.split("00")
-                if len(tmp_name) == 2:
-                    var_name, idx1 = tmp_name[0], int(tmp_name[1])
-                    if var_name == "FLTB" or var_name == "FOTB":
-                        mycropd[var_name][idx1] = value
-                        mycropd['FSTB'][idx1] = 1 - mycropd['FLTB'][idx1] - mycropd['FOTB'][idx1]
-                        parameters.set_override(var_name, mycropd[var_name])
-                        parameters.set_override("FSTB", mycropd["FSTB"])
-                        # print("%s: %s" % (var_name, parameters[var_name]))
-                    else:
-                        mycropd[var_name][idx1] = value
-                        parameters.set_override(var_name, mycropd[var_name])
+            parameter = copy.deepcopy(parameters)
 
-                else:
-                    var_name = name
-                    parameters.set_override(var_name, value)
-
-
+            parameter = overwrite_param1(parameter, param_dict_)
 
             try:
-                wofostpp = Wofost80_NWLP_FD(parameters, weatherdata, agrodata)
+                wofostpp = Wofost72_WLP_FD(parameter, weatherdata, agrodata)
                 result_dict = get_wofost_output(wofostpp, target_variables, result_dict, pid=i, var_list=target_list)
             except ZeroDivisionError as e:
                 print(e)

@@ -14,7 +14,7 @@ AgroManagement:
         name:  Timed irrigation events
         comment: All irrigation amounts in cm
         events_table:
-        - 2021-08-02: {amount: 7.5, efficiency: 1.0}
+        - 2021-08-02: {amount: 0, efficiency: 1.0}
     -   event_signal: apply_npk
         name:  Timed N/P/K application table
         comment: All fertilizer amounts in kg/ha
