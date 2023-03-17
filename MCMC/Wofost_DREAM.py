@@ -68,7 +68,7 @@ sampled_parameter_names = ["TSUMEM", "TSUM1", "TSUM2"]
 sampled_parameters = [TSUEM, TSUM1, TSUM2]
 
 nchains = 5
-niterations = 3000
+niterations = 4000
 
 def likelihood(parameter_vector):
     param_dict = {pname: pvalue for pname, pvalue in zip(sampled_parameter_names, parameter_vector)}
@@ -111,12 +111,18 @@ if __name__ == "__main__":
     #Check convergence and continue sampling if not converged
     GR = Gelman_Rubin(sampled_params)
     print('At iteration: ',total_iterations,' GR = ',GR)
-    np.savetxt('Wofost_dreamzs_5chain_GelmanRubin_iteration_'+str(total_iterations)+'.txt', GR)
-
+    os.chdir("F:\\paper_code\\wofost\\MCMC\\TSUM1")
+    count1 = 0
+    np.savetxt('Wofost_dreamzs_5chain_GelmanRubin_iteration_'+str(total_iterations)+str(count1)+'.txt', GR)
+    
     old_samples = sampled_params
-    if np.any(GR>1.2):
+    with open(f"./old_samples{count1}.pkl", "wb") as f:
+        pickle.dump(old_samples, f)
+    if np.any(GR>1.01):
+        
         starts = [sampled_params[chain][-1, :] for chain in range(nchains)]
         while not converged:
+            count1 += 1
             total_iterations += niterations
             sampled_params, log_ps = run_dream(parameters=sampled_parameters, likelihood=likelihood,
                                                niterations=niterations, nchains=nchains, start=starts, multitry=False, gamma_levels=4,
@@ -125,17 +131,19 @@ if __name__ == "__main__":
             
             # Save sampling output (sampled parameter values and their corresponding logps).
             for chain in range(len(sampled_params)):
-                np.save('wofost_dreamzs_5chain_sampled_params_chain_' + str(chain)+'_'+str(total_iterations), sampled_params[chain])
-                np.save('wofost_dreamzs_5chain_logps_chain_' + str(chain)+'_'+str(total_iterations), log_ps[chain])
+                np.save('wofost_dreamzs_5chain_sampled_params_chain_' + str(chain) +
+                        '_'+str(total_iterations)+str(count1), sampled_params[chain])
+                np.save('wofost_dreamzs_5chain_logps_chain_' + str(chain) +
+                        '_'+str(total_iterations)+str(count1), log_ps[chain])
 
             old_samples = [np.concatenate((old_samples[chain], sampled_params[chain])) for chain in range(nchains)]
             GR = Gelman_Rubin(old_samples)
             print('At iteration: ',total_iterations,' GR = ',GR)
-            np.savetxt('wofost_dreamzs_5chain_GelmanRubin_iteration_' + str(total_iterations)+'.txt', GR)
+            np.savetxt('wofost_dreamzs_5chain_GelmanRubin_iteration_' + str(total_iterations)+ str(count1) + '.txt', GR)
 
-            if np.all(GR<1.2):
+            if np.all(GR<1.01):
                 converged = True
-    with open("./old_samples.pkl", "wb") as f:
+    with open("./old_samples%s.pkl" % count1, "wb") as f:
         pickle.dump(old_samples, f)
 
     try:
@@ -154,7 +162,7 @@ if __name__ == "__main__":
         for dim in range(ndims):
             fig = plt.figure()
             sns.distplot(samples[:, dim], color=colors[dim], norm_hist=True)
-            fig.savefig('PyDREAM_example_CORM_dimension_'+str(dim))
+            fig.savefig('PyDREAM_example_CORM_' +str(total_iterations) + '_dimension_'+str(dim))
 
     except ImportError:
         pass

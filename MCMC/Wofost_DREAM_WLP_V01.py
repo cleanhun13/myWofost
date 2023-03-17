@@ -24,7 +24,7 @@ import os.path
 import pickle
 
 pydream_path = os.path.dirname(inspect.getfile(run_dream))
-data_dir = os.path.join("F:\\paper_code\\wofost", "data")
+data_dir = os.path.join("F:\\paper_code\\wofost\\data")
 
 try:
     tabName = sys.argv[1]
@@ -39,7 +39,7 @@ except:
     nn = 180
 nn = int(nn)
 year = "2020"
-save_dir = os.path.join("F:\\paper_code\\wofost", "MCMC", tabName + year)
+save_dir = os.path.join("F:\\paper_code\\wofost\\MCMC", tabName + year)
 isdir_demo(save_dir)
 
 # print(tabName, nn)
@@ -76,7 +76,7 @@ def get_LAI(table_name):
 [lai_list, yield_list] = get_LAI(tabName)
 
 ## WOFOST模型初始化参数
-data_dir = os.path.join("F://paper_code//wofost", "data")
+# data_dir = os.path.join("F://paper_code//wofost", "data")
 cropfile = os.path.join(data_dir, 'npkfile', 'wofost_npk.crop')
 cropd = CABOFileReader(cropfile)
 soilfile = os.path.join(data_dir, 'soil', 'ec3_copy1.soil')
@@ -104,43 +104,48 @@ agro_list = [my_agro(yaml_agro_2021, nn), my_agro(yaml_agro_2022, nn)]
 
 ## 估计参数采样设计
 ori_params = {
-    "TSUMEM": 86, "SLATB001":0.0026, "TDWI": 50.0, 
-    "TSUM1": 1139, "SPAN": 36.5, "FOTB003": 0.50,
-    "TSUM2": 812, "CVO": 0.671, "CVL": 0.680, 
-    "EFFTB001": 0.45, "EFFTB002": 0.45,
+    "TSUMEM": 92.35, "SLATB001":0.0026, "TDWI": 50.0, 
+    "TSUM1": 1192.58, "SPAN": 36.5, "FLTB003": 0.62,
+    "TSUM2": 788.15, "CVO": 0.671, "CVL": 0.680, 
+    "EFFTB001": 0.45, "EFFTB003": 0.45,
     "TMNFTB003": 1.0 
 }
 
 # 参数分布设置
-TSUMEM = SampledParam(norm, loc=1, scale=0.09)
-TSUM1 = SampledParam(norm, loc=1, scale=0.019)
-TSUM2 = SampledParam(norm, loc=1, scale=0.03)
-EFFTB001 = SampledParam(uniform, loc=0.85, scale=0.5)
-EFFTB002 = SampledParam(uniform, loc=0.85, scale=0.5)
-TMNFTB003 = SampledParam(uniform, loc=0.85, scale=0.5)
-SLATB001 = SampledParam(uniform, loc=0.85, scale=0.5)
-TDWI = SampledParam(uniform, loc=0.85, scale=0.5)
-SPAN = SampledParam(uniform, loc=0.85, scale=0.5)
-CVO = SampledParam(uniform, loc=0.85, scale=0.5)
-CVL = SampledParam(uniform, loc=0.85, scale=0.5)
-FOTB003 = SampledParam(uniform, loc=0.85, scale=1.25)
-sampled_parameter_names = ["TSUMEM", "TSUM1", "TSUM2", 
-                           "EFFTB001", "EFFTB002", 
+# TSUMEM = SampledParam(norm, loc=1, scale=0.09)
+# TSUM1 = SampledParam(norm, loc=1, scale=0.019)
+# TSUM2 = SampledParam(norm, loc=1, scale=0.03)
+# EFFTB001 = SampledParam(uniform, loc=0.85, scale=0.5)
+EFFTB003 = SampledParam(norm, loc=1, scale=0.1)
+TMNFTB003 = SampledParam(norm, loc=1, scale=0.1)
+SLATB001 = SampledParam(norm, loc=1, scale=0.1)
+TDWI = SampledParam(norm, loc=1, scale=0.1)
+SPAN = SampledParam(norm, loc=1, scale=0.1)
+CVO = SampledParam(norm, loc=1, scale=0.1)
+CVL = SampledParam(norm, loc=1, scale=0.1)
+FLTB003 = SampledParam(norm, loc=1, scale=0.1)
+sampled_parameter_names = [ 
+                           "EFFTB003", 
                            "TMNFTB003", "SLATB001", 
                            "TDWI", "SPAN", "CVO", 
-                           "CVL", "FOTB003"]
+                           "CVL", "FLTB003"
+                           ]
 
-sampled_parameters = [TSUMEM, TSUM1, TSUM2, EFFTB001, EFFTB002, TMNFTB003, SLATB001, TDWI, SPAN, CVO, CVL, FOTB003]
+sampled_parameters = [EFFTB003, TMNFTB003, SLATB001, TDWI, SPAN, CVO, CVL, FLTB003]
 
 
 nchains = 8
-niterations = 5000
+niterations = 10000
 
 def likelihood(parameter_vector):
     param_dict = {pname: pvalue for pname, pvalue in zip(sampled_parameter_names, parameter_vector)}
     total_logp = 0
     agro, lai_obs, yield_obs = agro_list[0], lai_list[0], yield_list[0]
     params = ParameterProvider(cropdata=cropd, soildata=soild, sitedata=sited)
+    # 设置物候参数
+    params.set_override("TSUMEM", 92.35)
+    params.set_override("TSUM1", 1192.58)
+    params.set_override("TSUM2", 788.15)
     parameters = overwrite_by_frac(params, param_dict, ori_params)
     try:
         wofostmodel = Wofost72_WLP_FD(parameters, wdp, agro)
@@ -156,12 +161,12 @@ def likelihood(parameter_vector):
 
     try:
         # 产量似然
-        log_ps_yield = -0.5 * np.log(2*np.pi)-np.log(525) - 0.5*((yield_obs-twso)**2)/(525**2)
+        log_ps_yield = -0.5 * np.log(2*np.pi)-np.log(yield_obs*0.08) - 0.5*((yield_obs-twso)**2/(yield_obs*0.08)**2)
         # 叶面积似然
         diff = lai_obs.LAI - result.LAI
         diff.dropna(inplace=True)
         (n, ) = diff.shape
-        log_ps_lai = -0.5*n*np.log(2*np.pi) - n*np.log(0.35) - 0.5*np.sum((diff/0.35)**2)
+        log_ps_lai = -0.5*n*np.log(2*np.pi) - np.sum(np.log((lai_obs.LAI)*0.05)) - 0.5*np.sum((diff/((lai_obs.LAI)*0.05))**2)
 
         total_logp = log_ps_yield + log_ps_lai
 
