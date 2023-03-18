@@ -116,14 +116,14 @@ ori_params = {
 # TSUM1 = SampledParam(norm, loc=1, scale=0.019)
 # TSUM2 = SampledParam(norm, loc=1, scale=0.03)
 # EFFTB001 = SampledParam(uniform, loc=0.85, scale=0.5)
-EFFTB003 = SampledParam(norm, loc=1.72, scale=0.076)
-TMNFTB003 = SampledParam(norm, loc=2.24, scale=0.063)
-SLATB001 = SampledParam(norm, loc=0.061, scale=0.004)
-TDWI = SampledParam(norm, loc=0.893894, scale=0.109312)
-SPAN = SampledParam(norm, loc=1.081702, scale=0.069630)
-CVO = SampledParam(norm, loc=1.310339, scale=0.080280)
-CVL = SampledParam(norm, loc=1.41121, scale=0.072701)
-FLTB003 = SampledParam(norm, loc=1.835964, scale=0.069189)
+EFFTB003 = SampledParam(norm, loc=1, scale=0.1)
+TMNFTB003 = SampledParam(norm, loc=1, scale=0.1)
+SLATB001 = SampledParam(norm, loc=1, scale=0.1)
+TDWI = SampledParam(norm, loc=1, scale=0.1)
+SPAN = SampledParam(norm, loc=1, scale=0.1)
+CVO = SampledParam(norm, loc=1, scale=0.1)
+CVL = SampledParam(norm, loc=1, scale=0.1)
+FLTB003 = SampledParam(norm, loc=1, scale=0.1)
 sampled_parameter_names = [ 
                            "EFFTB003", 
                            "TMNFTB003", "SLATB001", 
@@ -135,7 +135,7 @@ sampled_parameters = [EFFTB003, TMNFTB003, SLATB001, TDWI, SPAN, CVO, CVL, FLTB0
 
 
 nchains = 8
-niterations = 10000
+niterations = 7000
 
 def likelihood(parameter_vector):
     param_dict = {pname: pvalue for pname, pvalue in zip(sampled_parameter_names, parameter_vector)}
